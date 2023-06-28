@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    tools {
+      maven 'mvn_home'
+    }
+    stages {
+        stage('SCM-Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-credentials', 
+				url: 'https://github.com/Rudhanlm10/jjmtc-integration.git'
+            }
+        }
+        stage('maven-goal') {
+            steps {
+                sh 'mvn clean compile test package'
+            }
+        }		
+        stage('tomcat-deployment') {
+            steps {
+                echo  "tomcat-deploy"
+            }
+        }		
+    }
+
+}
